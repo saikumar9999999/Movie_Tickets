@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - Movie Magic</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+    body { font-family: 'Inter', sans-serif; }
+    .success-bg { background: linear-gradient(135deg, #014c33 0%, #024831 100%); }
+    .qr-code { 
+        background: repeating-conic-gradient(#f50505 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+    }
+</style>
+
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h4zM3 8v11a2 2 0 002 2h14a2 2 0 002-2V8H3z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Movie Magic</h1>
+                        <p class="text-xs text-gray-500">Smart Booking System</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Confirmation Section -->
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Success Header -->
+            <div class="success-bg p-8 text-center">
+                <svg class="h-16 w-16 text-white mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h1 class="text-2xl font-bold text-white mb-2">Booking Confirmed!</h1>
+                <p class="text-green-100">Your tickets have been successfully booked</p>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="p-8">
+                <div class="text-center mb-8">
+                    <div class="bg-gray-100 rounded-lg p-4 inline-block">
+                        <p class="text-sm text-gray-600">Booking ID</p>
+                        <p class="text-xl font-bold text-gray-900">MM-2024-001234</p>
+                    </div>
+                </div>
+
+                <!-- Movie Info -->
+                <div class="flex items-center space-x-4 mb-8 p-4 bg-gray-50 rounded-lg">
+                    <img id="movie-poster" src="" alt="Movie" class="w-20 h-30 object-cover rounded-lg">
+                    <div>
+                        <h2 id="movieTitle" class="text-xl font-bold text-gray-900"></h2>
+                        <p class="text-gray-600">Sci-Fi, Adventure, Drama</p>
+                        <div class="flex items-center space-x-4 mt-2 text-sm text-gray-600">
+                            <div class="flex items-center space-x-1">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4h3a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1V8a1 1 0 011-1h3z"/>
+                                </svg>
+                                <span id="movieDate"></span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <span id="movieTime"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ticket Details -->
+                <div class="space-y-4 mb-8">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Theater:</span>
+                        <span class="font-medium" id="theatre"></span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Seats:</span>
+                        <span class="font-medium" id="seats"></span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Number of Tickets:</span>
+                        <span class="font-medium" id="ticketCount"></span>
+                    </div>
+                    <div class="flex justify-between items-center text-lg">
+                        <span class="font-semibold">Total Paid:</span>
+                        <span class="font-bold text-green-600" id="totalPrice"></span>
+                    </div>
+                </div>
+
+                <!-- QR Code -->
+                <div class="text-center mb-8">
+                    <div class="bg-gray-100 w-32 h-32 mx-auto rounded-lg flex items-center justify-center">
+                        <div class="text-gray-400">
+                            <div class="grid grid-cols-8 gap-1">
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                                <div class="w-1 h-1 bg-gray-100"></div>
+                                <div class="w-1 h-1 bg-gray-800"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Show this QR code at the theater</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-3">
+                    <button class="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>Download Ticket</span>
+                    </button>
+                    
+                    <a href="{{ url_for('movies') }}" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-lg font-medium transition-colors block text-center">
+                        Book Another Movie
+                    </a>
+                </div>
+
+
+                <!-- Important Info -->
+                <div class="mt-8 p-4 bg-yellow-50 rounded-lg">
+                    <h3 class="font-semibold text-yellow-800 mb-2">Important Information</h3>
+                    <ul class="text-sm text-yellow-700 space-y-1">
+                        <li>• Please arrive 15 minutes before showtime</li>
+                        <li>• Carry a valid ID for verification</li>
+                        <li>• Outside food and beverages are not allowed</li>
+                        <li>• Tickets are non-refundable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const movieImage = urlParams.get('image') || 'https://via.placeholder.com/64x96.png?text=No+Image';
+  document.getElementById('movie-poster').src = decodeURIComponent(movieImage);
+  document.getElementById("movieTitle").textContent = decodeURIComponent(urlParams.get("movie") || "");
+  document.getElementById("movieDate").textContent = urlParams.get("date");
+  document.getElementById("movieTime").textContent = urlParams.get("time");
+  document.getElementById("theatre").textContent = urlParams.get("theatre");
+  document.getElementById("seats").textContent = urlParams.get("seats");
+  document.getElementById("ticketCount").textContent = urlParams.get("tickets");
+  document.getElementById("totalPrice").textContent = "₹" + urlParams.get("price");
+</script>
+</body>
+</html>
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movies - Movie Magic</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body class="bg-gray-50">
+  <header class="bg-white shadow sticky top-0 z-50 p-4">
+    <h1 class="text-2xl font-bold text-center text-purple-600">Browse Movies</h1>
+    <nav class="hidden md:flex space-x-8 justify-center mt-2">
+      <a href="{{ url_for('index') }}" class="text-gray-600 hover:text-purple-600">Home</a>
+      <a href="{{ url_for('movies') }}" class="text-purple-600 font-medium">Movies</a>
+    </nav>
+  </header>
+<section class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div>
+    <label for="languageFilter" class="block text-blue-700 font-medium mb-2">Filter by Language:</label>
+    <select id="languageFilter" onchange="filterMovies()" class="w-full p-2 border border-gray-300 rounded">
+      <option value="all">All</option>
+      <option value="english">English</option>
+      <option value="hindi">Hindi</option>
+      <option value="tamil">Tamil</option>
+      <option value="telugu">Telugu</option>
+    </select>
+  </div>
+  <div>
+    <label for="theatreFilter" class="block text-blue-700 font-medium mb-2">Filter by Theatre:</label>
+    <select id="theatreFilter" onchange="filterMovies()" class="w-full p-2 border border-gray-300 rounded">
+      <option value="all">All Theatres</option>
+      <option value="PVR Cinemas">PVR Cinemas</option>
+      <option value="Sri Lakshmi Theatre">Sri Lakshmi Theatre</option>
+      <option value="IMAX">IMAX</option>
+    </select>
+  </div>
+</section>
+  <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+    
+    <div class="movie-card english" data-theatre="Sri Lakshmi Theatre" data-id="1">
+      <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRfHoiBliijeRVAi4GY_TryAITeBeTRxlayps0eJUaPY74b732T" alt="Smurfs" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">Kingdom</h3>
+      <p class="text-gray-500 mb-2">Action,Drama</p>
+      <div class="flex space-x-2">
+        <a href="{{ url_for('movie_details') }}?id=1" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="1">Book Now</a>
+       
+    </div>
+    </div>
+
+    <div class="movie-card english" data-theatre="Sri Lakshmi Theatre,IMAX" data-id="2">
+      <img src="https://www.wallsnapy.com/img_gallery/coolie-movie-rajini--poster-4k-download-9445507.jpg" alt="The Fantastic Four:First Steps" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">coolie</h3>
+      <p class="text-gray-500 mb-2">Action, Adventure, Sci-Fi</p>
+      <div class="flex space-x-2">
+        <a href="{{ url_for('movie_details') }}?id=2" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="2">Book Now</a>
+   
+</div>
+    </div>
+
+   <div class="movie-card english" data-theatre="PVR Cinemas,IMAX" data-id="3">
+      <img src="https://assets-in.bmscdn.com/discovery-catalog/events/et00383697-gucgrdkcjr-landscape.jpg" alt="Jurassic World:Rebirth" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">Rajasaab</h3>
+      <p class="text-gray-500 mb-2">horror,fantasy</p>
+     <div class="flex space-x-2">
+ <a href="{{ url_for('movie_details') }}?id=3" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="3">Book Now</a>
+  
+</div>
+</div>
+
+ 
+    </div>
+
+    <div class="movie-card hindi" data-theatre="Sri Lakshmi Theatre" data-id="4">
+      <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRcUHzhXmYstYQAUNnsxv-utGFQ0_hpBZJgCgD30p0jqtERSH1y" alt="War 2" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">War 2</h3>
+      <p class="text-gray-500 mb-2">Action, Thriller</p>
+     <div class="flex space-x-2">
+  <a href="{{ url_for('movie_details') }}?id=5" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="5">Book Now</a>
+  
+</div>
+</div>
+
+    <div class="movie-card hindi" data-theatre="PVR Cinemas" data-id="5">
+      <img src="https://static.toiimg.com/thumb/resizemode-4,width-1280,height-720,msid-113587323/113587323.jpg" alt="Superman" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">Devara part-1</h3>
+      <p class="text-gray-500 mb-2">Action,Thriller,Drama</p>
+     <div class="flex space-x-2">
+      <a href="{{ url_for('movie_details') }}?id=6" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="6">Book Now</a>
+  
+</div>
+    </div>
+
+   <div class="movie-card hindi" data-theatre="PVR Cinemas,Sri Lakshmi Theatre" data-id="6">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYs_PKQZnJRaDUREOPF0fCcFf-gkwQNTNE0QsthsbNjFSE_MIm" alt="Nikita Roy" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">Nikita Roy</h3>
+      <p class="text-gray-500 mb-2">Horror, Mystery, Thriller</p>
+      <div class="flex space-x-2">
+ <a href="{{ url_for('movie_details') }}?id=7" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="7">Book Now</a>
+  
+</div>
+    </div>
+    <div class="movie-card tamil" data-theatre="PVR Cinemas" data-id="7">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9zdJ5ZhXj8pRpDBx4ywHu8tCLs6LQmAPRllzYEfgUfgDXUvUu" alt="3 BHK" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">3 BHK</h3>
+      <p class="text-gray-500 mb-2">Drama, Family</p>
+      <div class="flex space-x-2">
+ <a href="{{ url_for('movie_details') }}?id=8" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="8">Book Now</a>
+ 
+</div>
+
+    </div>
+
+   <div class="movie-card telugu" data-theatre="PVR Cinemas,IMAX" data-id="8">
+      <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR2t2qnSxIi9X8qIcUJ8X3ZbNak1nOr5SlyQ-_u-tjMrYgeUk-l" alt="Hari Hara Veera Mallu" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">Hari Hara Veera Mallu</h3>
+      <p class="text-gray-500 mb-2">Action, Drama</p>
+      <div class="flex space-x-2">
+  <a href="{{ url_for('movie_details') }}?id=10" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="10">Book Now</a>
+  
+</div>
+    </div>
+
+   <div class="movie-card telugu" data-theatre="Sri Lakshmi Theatre" data-id="9">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQZFvUvhzgYPzw8sTQReM0ruAAEIEjHkGhMHnO3ytAZGWxsk-p" alt="Kannapa" class="w-full h-64 object-cover mb-4">
+      <h3 class="text-xl font-bold mb-2">Kannapa</h3>
+      <p class="text-gray-500 mb-2">Action, Epic</p>
+      <div class="flex space-x-2">
+  <a href="{{ url_for('movie_details') }}?id=11" class="details-btn bg-purple-500 text-white px-4 py-2 rounded hover:bg-red-600" data-id="11">Book Now</a>
+  
+</div>
+</div>
+  </section>
+ <script>
+  function filterMovies() {
+    const lang = document.getElementById("languageFilter").value;
+    const theatre = document.getElementById("theatreFilter").value;
+    const cards = document.querySelectorAll(".movie-card");
+
+    cards.forEach(card => {
+      const matchesLang = lang === "all" || card.classList.contains(lang);
+      const theatres = card.dataset.theatre?.split(",").map(t => t.trim()) || [];
+      const matchesTheatre = theatre === "all" || theatres.includes(theatre);
+      card.style.display = (matchesLang && matchesTheatre) ? "block" : "none";
+    });
+  }
+
+  // Attach event listeners ONCE after the DOM loads
+  window.onload = function () {
+    filterMovies(); // run once initially
+
+    document.getElementById("languageFilter").addEventListener("change", filterMovies);
+    document.getElementById("theatreFilter").addEventListener("change", filterMovies);
+
+    document.body.addEventListener("click", function (e) {
+  if (e.target.classList.contains("books-btn")) {
+    e.preventDefault();
+    const movieId = e.target.dataset.id;
+    const theatre = document.getElementById("theatreFilter").value;
+    const href = (theatre === "all")
+      ? `seat_selection.html?id=${movieId}`
+      : `/seat_selection.html?id=${movieId}&theatre=${encodeURIComponent(theatre)}`;
+    window.location.href = href;
+  }
+});
+  }
+</script>
+</body>
+</html>

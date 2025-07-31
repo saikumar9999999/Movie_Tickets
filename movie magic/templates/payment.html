@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment - Movie Magic</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3">
+          <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
+            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h4zM3 8v11a2 2 0 002 2h14a2 2 0 002-2V8H3z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-gray-900">Movie Magic</h1>
+            <p class="text-xs text-gray-500">Smart Booking System</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-600">Step 3 of 3</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Payment Section -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <button onclick="history.back()" class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      <span>Back to Seat Selection</span>
+    </button>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Booking Summary -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-6">Booking Summary</h2>
+        <div class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <img id="movie-image" src="" alt="Movie" class="w-16 h-24 object-cover rounded-lg">
+<div>
+  <h3 id="movie-title" class="font-semibold text-gray-900">Loading...</h3>
+  <p id="movie-genre" class="text-sm text-gray-600"></p>
+<p id="movie-time" class="text-lg text-purple-600 font-medium mt-1"></p>
+</div>
+
+          </div>
+
+          <div class="border-t pt-4">
+            <div class="flex justify-between mb-2">
+  <span>Theatre:</span>
+  <span class="font-medium" id="theatre-name">Loading...</span>
+</div>
+            <div class="flex justify-between mb-2">
+              <span>Seats:</span>
+              <span class="font-medium" id="seat-list">Loading...</span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Tickets (<span id="ticket-count">0</span>):</span>
+              <span id="ticket-amount">Rs0.00</span>
+            </div>
+            <div class="flex justify-between mb-2">
+              <span>Tax & Fees:</span>
+              <span id="tax-fee">Rs0.00</span>
+            </div>
+            <div class="border-t pt-2 flex justify-between text-lg font-bold">
+              <span>Total:</span>
+              <span class="text-purple-600" id="total-amount">Rs0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Form -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="flex items-center space-x-2 mb-6">
+          <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          <h2 class="text-xl font-bold text-gray-900">Secure Payment</h2>
+        </div>
+
+        <form id="payment-form">
+  <!-- Payment Method Selection -->
+  <div class="mb-4">
+    <label class="block text-sm font-semibold text-gray-700 mb-2">Choose Payment Method:</label>
+    <div class="flex space-x-4">
+      <label class="flex items-center space-x-2">
+        <input type="radio" name="payment-method" value="card" checked class="text-purple-600 focus:ring-purple-500" onchange="togglePaymentMethod()">
+        <span class="text-sm">Card</span>
+      </label>
+      <label class="flex items-center space-x-2">
+        <input type="radio" name="payment-method" value="paytm" class="text-purple-600 focus:ring-purple-500" onchange="togglePaymentMethod()">
+        <span class="text-sm">Paytm</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Card Payment Section -->
+  <div id="card-section">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Card Number</label>
+     <input id="card-number" type="text" placeholder="1234 5678 9012 3456" autocomplete="off"
+             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Expiry Date</label>
+        <input id="expiry" type="text" placeholder="MM/YY" autocomplete="off"
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
+        <input id="cvv" type="text" placeholder="123" autocomplete="off"
+               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Cardholder Name</label>
+      <input id="cardholder-name" type="text" placeholder="Name Of Holder " autocomplete="off"
+             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+    </div>
+  </div>
+
+  <!-- Paytm Section -->
+  <div id="paytm-section" class="hidden">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Paytm Number</label>
+    <input id="paytm-number" type="text" placeholder="Enter your Paytm mobile number" autocomplete="off"
+           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+  </div>
+
+  <button id="pay-now"
+  class="w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-semibold transition-colors mt-6 block text-center cursor-not-allowed pointer-events-none">
+  Pay ₹0.00
+</button>
+</form>
+        <p class="text-xs text-gray-500 text-center mt-4">
+          Your payment information is secure and encrypted
+        </p>
+      </div>
+    </div>
+  </div>
+  <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const movie = urlParams.get('movie') || 'smurfs';   
+  const seats = urlParams.get('seats') || '';
+  const total = parseFloat(urlParams.get('total')) || 0;
+  const customTime = urlParams.get('time');
+  const seatArray = seats.split(',').filter(s => s.trim() !== '');
+  const tax = parseFloat((total * 0.08).toFixed(2)); 
+  const grandTotal = (total + tax).toFixed(2);
+  const movieInfo = {
+      smurfs: {
+        title: "Kingdom",
+        genre: "Action, Drama",
+        price: "Rs180",
+        image: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRfHoiBliijeRVAi4GY_TryAITeBeTRxlayps0eJUaPY74b732T",
+        description: "The film revolves around a terrorist attack on an American housing compound in Riyadh, Saudi Arabia. FBI Special Agent Ronald Fleury leads a team to investigate the attack, facing resistance from Saudi officials and navigating a complex political landscape.",
+      },
+      "coolie": {
+        title: "coolie",
+        genre: "Action, Adventure, Sci-Fi",
+        price: "Rs200",
+        image: "https://www.wallsnapy.com/img_gallery/coolie-movie-rajini--poster-4k-download-9445507.jpg",
+        description: "The plot is said to involve a vendetta, driven by the protagonist's desire to right past wrongs from his youth. The film is also reported to have an emotional core, with Deva's quest for revenge shaping his life and purpose.",  
+      },
+      "Rajasaab": {
+        title: "Rajasaab",
+        genre: "horror,fantasy",
+        price: "Rs250",
+        image: "https://assets-in.bmscdn.com/discovery-catalog/events/et00383697-gucgrdkcjr-landscape.jpg",
+        description: "A young heir embraces both his royal heritage and rebellious spirit as he rises to power, establishing unprecedented rules during his reign as Raja Saab.",      
+      },
+     
+      war2: {
+        title: "War 2",
+        genre: "Action, Thriller",
+        price: "Rs200",
+        image: "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRcUHzhXmYstYQAUNnsxv-utGFQ0_hpBZJgCgD30p0jqtERSH1y",
+        description: "A rogue mission forces elite agents from rival nations to unite against a deadly global threat. As hidden loyalties unravel, every move could spark international war. Packed with high-octane action and mind games, War 2 raises the stakes like never before.",
+        
+      },
+      Devarapart1: {
+        title: "Devara part-1",
+        genre: "Action,Thriller,Drama",
+        price: "Rs200",
+        image: "https://static.toiimg.com/thumb/resizemode-4,width-1280,height-720,msid-113587323/113587323.jpg",
+        description: "The film centers around a conflict between Devara and Bhaira, fueled by Devara's decision to stop smuggling operations, which disrupts the established order. ",
+        
+      },
+      nikitaroy: {
+        title: "Nikita Roy",
+        genre: "Horror, Mystery, Thriller",
+        price: "Rs250",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYs_PKQZnJRaDUREOPF0fCcFf-gkwQNTNE0QsthsbNjFSE_MIm",
+        description: "Nikita Roy, a fearless investigator, uncovers a dark conspiracy linked to a series of mysterious disappearances. As she delves deeper, the line between truth and illusion begins to blur. A gripping psychological thriller where justice comes at a chilling cost.",
+        
+      },
+      threebhk: {
+        title: "3 BHK",
+        genre: "Drama, Family",
+        price: "Rs200",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9zdJ5ZhXj8pRpDBx4ywHu8tCLs6LQmAPRllzYEfgUfgDXUvUu",
+        description: "A middle-class family's dream home turns into a maze of secrets as strange events unfold behind each door. Hidden tensions and mysterious neighbors begin to unravel their peaceful life. 3 BHK is a suspense-filled domestic drama where every room holds a twist.",
+        
+      },
+     
+     hariharaveeramallu: {
+        title: "Hari Hara Veera Mallu",
+        genre: "Action, Drama",
+        price: "Rs250",
+        image: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR2t2qnSxIi9X8qIcUJ8X3ZbNak1nOr5SlyQ-_u-tjMrYgeUk-l",
+        description: "Set in the Mughal era, Veera Mallu, a legendary outlaw, rises against tyranny to steal the prized Koh-i-Noor diamond. Battling empires and destiny, he becomes a symbol of rebellion and justice. Hari Hara Veera Mallu is a grand historical epic blending action, devotion, and heroism.",
+        
+      },
+      kannapa: {
+        title: "Kannapa",
+        genre: "Action, Epic",
+        price: "Rs300",
+        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQZFvUvhzgYPzw8sTQReM0ruAAEIEjHkGhMHnO3ytAZGWxsk-p",
+        description: "Based on the legendary devotee of Lord Shiva, Kannapa follows a tribal hunter whose unwavering faith leads to divine transformation. As he challenges societal norms and spiritual tests, his devotion transcends boundaries. A powerful mythological epic celebrating sacrifice, belief, and eternal love for the divine.",
+    }
+  }
+
+ const movieParam = movie.toLowerCase().replace(/[\s:]/g, '');
+const movieKey = Object.keys(movieInfo).find(
+  key => key.toLowerCase().replace(/[\s:]/g, '') === movieParam
+);
+  const movieData = movieInfo[movieKey] || {
+  title: "Unknown Movie",
+  genre: "Unknown Genre",
+  image: "https://via.placeholder.com/64x96.png?text=No+Image"
+};
+  const storedTitle = sessionStorage.getItem("selectedMovieTitle");
+  const storedTime = sessionStorage.getItem("selectedShowtime");
+  document.getElementById('movie-title').textContent = storedTitle || movieData.title;
+  document.getElementById('movie-genre').textContent = movieData.genre;
+  document.getElementById('movie-time').textContent = storedTime || decodeURIComponent(customTime || movieData.time);
+  document.getElementById('movie-image').src = movieData.image;
+  document.getElementById('seat-list').textContent = seatArray.join(', ') || 'No seats selected';
+  document.getElementById('ticket-count').textContent = seatArray.length;
+  document.getElementById('ticket-amount').textContent = `₹${total.toFixed(2)}`;
+  document.getElementById('tax-fee').textContent = `₹${tax}`;
+  document.getElementById('total-amount').textContent = `₹${grandTotal}`;
+  document.getElementById('pay-now').textContent = `Pay ₹${grandTotal}`;
+  const theatre = urlParams.get("theatre") || "Cinema Hall 1";
+  document.getElementById('theatre-name').textContent = theatre;
+</script>
+
+<script>
+function validatePaymentForm() {
+  const payMethod = document.querySelector('input[name="payment-method"]:checked').value;
+  const payBtn = document.getElementById("pay-now");
+  let isValid = false;
+  
+
+  if (payMethod === "card") {
+    
+    const cardNumber = document.getElementById("card-number").value.trim();
+    const expiry = document.getElementById("expiry").value.trim();
+    const cvv = document.getElementById("cvv").value.trim();
+    const isExpiryValid = /^\d{2}\/\d{2}$/.test(expiry); 
+    const isCVVValid = /^\d{3,4}$/.test(cvv); 
+    const cardholder = document.getElementById("cardholder-name").value.trim();
+   isValid = cardNumber && isExpiryValid && isCVVValid && cardholder;
+  } else if (payMethod === "paytm") {
+    const paytmNumber = document.getElementById("paytm-number").value.trim();
+    isValid = paytmNumber.length === 10 && /^\d{10}$/.test(paytmNumber);
+  }
+  if (isValid) {
+    payBtn.classList.remove("bg-gray-300", "text-gray-500", "cursor-not-allowed", "pointer-events-none");
+    payBtn.classList.add("bg-purple-600", "hover:bg-purple-700", "text-white");
+    payBtn.onclick = redirectToThankYou;
+  } else {
+    payBtn.classList.add("bg-gray-300", "text-gray-500", "cursor-not-allowed", "pointer-events-none");
+    payBtn.classList.remove("bg-purple-600", "hover:bg-purple-700", "text-white");
+    payBtn.onclick = (e) => e.preventDefault();
+  }
+}
+
+function togglePaymentMethod() {
+  const method = document.querySelector('input[name="payment-method"]:checked').value;
+
+  document.getElementById("card-section").classList.toggle("hidden", method !== "card");
+  document.getElementById("paytm-section").classList.toggle("hidden", method !== "paytm");
+
+  if (method === "paytm") {
+    const paytmInput = document.getElementById("paytm-number");
+    if (paytmInput && !paytmInput.hasAttribute("data-listener-added")) {
+      paytmInput.addEventListener("input", validatePaymentForm);
+      paytmInput.setAttribute("data-listener-added", "true");
+    }
+  }
+
+  validatePaymentForm();
+}
+ if (seatArray.length === 0 || total === 0) {
+  alert("Invalid seat selection or price.");
+  window.location.href = "movies.html"; 
+ }
+["card-number", "expiry", "cvv", "cardholder-name", "paytm-number"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener("input", validatePaymentForm);
+  }
+ 
+});
+function redirectToThankYou() {
+  const payBtn = document.getElementById("pay-now");
+  if (payBtn.classList.contains("pointer-events-none") || payBtn.disabled) return;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const movie = urlParams.get('movie') || 'smurfs';
+  const movieTimeText = document.getElementById("movie-time").textContent;
+  const [date, time] = movieTimeText.includes(" at ") ? movieTimeText.split(" at ") : ["Unknown", "Unknown"];
+  const theatre = urlParams.get("theatre") || "Cinema Hall 1";
+  const seats = document.getElementById("seat-list").textContent || "No seats selected";
+  const tickets = document.getElementById("ticket-count").textContent || "0";
+  const price = document.getElementById("total-amount").textContent.replace("₹", "") || "0.00";
+
+  const bookingData = {
+    movie,
+    date,
+    time,
+    theatre,
+    seats,
+    tickets,
+    price
+  };
+
+  payBtn.disabled = true;
+  payBtn.textContent = "Processing...";
+
+  fetch("/confirm_booking", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bookingData)
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to confirm booking");
+      return response.json();
+    })
+    .then(data => {
+      console.log("✅ Booking confirmed:", data);
+      const imageUrl = encodeURIComponent(movieData.image);
+      const redirectUrl = `{{ url_for('thankyou') }}?movie=${encodeURIComponent(movie)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(time)}&theatre=${encodeURIComponent(theatre)}&seats=${encodeURIComponent(seats)}&tickets=${tickets}&price=${price}&image=${encodeURIComponent(movieData.image)}`;
+      window.location.href = redirectUrl;
+    })
+    .catch(error => {
+      console.error("❌ Error confirming booking:", error);
+      alert("Booking failed. Please try again.");
+      payBtn.disabled = false;
+      payBtn.textContent = `Pay ₹${price}`;
+    });
+}
+</script>
+</body>
+</html>

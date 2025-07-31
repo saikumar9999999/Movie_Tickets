@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* === Base & Typography === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fbf9f9;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  color: #23371f;
+}
+
+/* === Hero Section === */
+.hero-bg {
+  background: linear-gradient(135deg, #66ea8b 0%, #4b4ca2 100%);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-heading {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.hero-btn-outline {
+  display: inline-block;
+  padding: 12px 30px;
+  border: 2px solid rgb(105, 3, 78);
+  color: rgb(240, 236, 236);
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.hero-btn-outline:hover {
+  background-color: rgb(10, 15, 153);
+  color: #7c3aed;
+}
+
+/* === Login/Signup Pages === */
+body.custom-body {
+  background-color: #7c3aed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container, .signup-card {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title, .signup-card h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.form-input, .signup-card input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  box-sizing: border-box;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus, .signup-card input:focus {
+  border-color: transparent;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
+}
+
+.login-button, .signup-card button[type="submit"] {
+  width: 100%;
+  background-color: #7c3aed;
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover, .signup-card button[type="submit"]:hover {
+  background-color: #6b21a8;
+}
+
+/* === Movies Listing === */
+.movie-card img {
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.movie-card img:hover {
+  transform: scale(1.02);
+}
+
+.movie-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.movie-card p {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.movie-card a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.movie-card a:hover {
+  background-color: #6d28d9;
+  transform: scale(1.03);
+}
+
+/* === Movie Details === */
+#movieImage {
+  transition: transform 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+#movieImage:hover {
+  transform: scale(1.02);
+}
+
+#moviePrice {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+#showtimes > div {
+  transition: all 0.2s ease;
+  border-width: 2px;
+}
+
+#showtimes > div:hover {
+  transform: scale(1.01);
+  background-color: #f9fafb;
+}
+
+#showtimes > div.border-purple-500 {
+  border-color: #7c3aed;
+  background-color: #ede9fe !important;
+}
+
+/* === Seat Selection === */
+/* style.css */
+
+/* style.css - Movie Magic Seat Styling */
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Common Seat Style */
+.seat {
+  transition: all 0.2s ease;
+}
+
+.seat:hover {
+  transform: scale(1.1);
+}
+
+/* Seat Types */
+.seat-available {
+  background-color: #f3f4f6;
+  border: 2px solid #d1d5db;
+}
+
+.seat-selected {
+  background-color: #8b5cf6;
+  border: 2px solid #8b5cf6;
+  color: white;
+}
+
+.seat-booked {
+  background-color: #9ca3af;
+  border: 2px solid #9ca3af;
+  color: white;
+  cursor: not-allowed;
+}
+
+.seat-premium {
+  background-color: #dbeafe;
+  border: 2px solid #3b82f6;
+  color: #1e40af;
+}
+
+.seat-vip {
+  background-color: #fef3c7;
+  border: 2px solid #f59e0b;
+  color: #92400e;
+}
+
+
+
+/* === Payment Page === */
+#movie-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+#movie-time {
+  color: #7c3aed;
+  font-weight: 500;
+}
+
+#pay-now:hover:not(.pointer-events-none) {
+  background-color: #6d28d9;
+  transform: scale(1.02);
+}
+
+/* === Booking Confirmation === */
+.success-banner {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 2rem;
+  text-align: center;
+  color: firebrick;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.success-banner h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.qr-container {
+  background: #054cda;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === Buttons === */
+.btn-primary {
+  background-color: #8b5cf6;
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #7c3aed;
+}
+
+.btn-secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-weight: 500;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* === Info Box === */
+.info-box {
+  background-color: #fef3c7;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.info-box h3 {
+  color: #92400e;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.info-box ul {
+  font-size: 0.875rem;
+  color: #78350f;
+  list-style: disc inside;
+}

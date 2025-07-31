@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Seats - Movie Magic</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .seat { transition: all 0.2s ease; }
+        .seat:hover { transform: scale(1.1); }
+        .seat-available { background-color: #f8f8f9; border: 2px solid #d3d5d6; }
+        .seat-selected { background-color: #8b5cf6; border: 2px solid #8b5cf6; color: white; }
+        .seat-booked { background-color: #9ca3af; border: 2px solid #9ca3af; color: white; cursor: not-allowed; }
+        .seat-premium { background-color: #dbeafe; border: 2px solid #3b82f6; color: #1e40af; }
+        .seat-vip { background-color: #fef3c7; border: 2px solid #f59e0b; color: #92400e; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-xl">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1H3a1 1 0 01-1-1V5a1 1 0 011-1h4zM3 8v11a2 2 0 002 2h14a2 2 0 002-2V8H3z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Movie Magic</h1>
+                        <p class="text-xs text-gray-500">Smart Booking System</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Seat Selection Section -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Back Button -->
+        <button onclick="history.back()" class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span>Back to Showtimes</span>
+        </button>
+
+        <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Your Seats</h2>
+                 <p id="movieDetails" class="text-gray-600"></p>
+                 <p id="theatreDetails" class="text-gray-600"></p>
+            </div>
+
+            <!-- Screen -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-gradient-to-r from-gray-200 to-gray-300 rounded-t-3xl px-12 py-4 shadow-lg">
+                    <div class="flex items-center space-x-2 text-gray-600">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="font-medium">SCREEN</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seat Layout -->
+            <div class=" flex flex-col items-center space-y-4">
+                <div class="flex flex-col space-y-2">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-6 text-center text-sm font-medium text-gray-500">A</span>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A1', 25.99)">1</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A2', 25.99)">2</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A3', 25.99)">3</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A4', 25.99)">4</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A5', 25.99)">5</button>
+                        </div>
+                        <div class="w-8"></div>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A6', 25.99)">6</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A7', 25.99)">7</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A8', 25.99)">8</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A9', 25.99)">9</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'A10', 25.99)">10</button>
+                        </div>
+                    </div>
+
+                    <!-- Row B (VIP) -->
+                    <div class="flex items-center space-x-2">
+                        <span class="w-6 text-center text-sm font-medium text-gray-500">B</span>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B1', 25.99)">1</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B2', 25.99)">2</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium">3</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium">4</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B5', 25.99)">5</button>
+                        </div>
+                        <div class="w-8"></div>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B6', 25.99)">6</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B7', 25.99)">7</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B8', 25.99)">8</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B9', 25.99)">9</button>
+                            <button class="seat seat-available w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'B10', 25.99)">10</button>
+                        </div>
+                    </div>
+
+                    <!-- Row C (Premium) -->
+                    <div class="flex items-center space-x-2">
+                        <span class="w-6 text-center text-sm font-medium text-gray-500">C</span>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C1', 19.99)">1</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C2', 19.99)">2</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C3', 19.99)">3</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C4', 19.99)">4</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C5', 19.99)">5</button>
+                        </div>
+                        <div class="w-8"></div>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C6', 19.99)">6</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C7', 19.99)">7</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C8', 19.99)">8</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C9', 19.99)">9</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'C10', 19.99)">10</button>
+                        </div>
+                    </div>
+
+                    <!-- Rows D-H (Regular) -->
+                    <div class="flex items-center space-x-2">
+                        <span class="w-6 text-center text-sm font-medium text-gray-500">D</span>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D1', 15.99)">1</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D2', 15.99)">2</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D3', 15.99)">3</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D4', 15.99)">4</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D5', 15.99)">5</button>
+                        </div>
+                        <div class="w-8"></div>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D6', 15.99)">6</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D7', 15.99)">7</button>
+                            <button class="seat seat-premium w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'D8', 15.99)">8</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium">9</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium">10</button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <span class="w-6 text-center text-sm font-medium text-gray-500">E</span>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E1', 15.99)">1</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E2', 15.99)">2</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E3', 15.99)">3</button>
+                            <button class="seat seat-booked w-8 h-8 rounded-lg text-xs font-medium">4</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E5', 15.99)">5</button>
+                        </div>
+                        <div class="w-8"></div>
+                        <div class="flex space-x-1">
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E6', 15.99)">6</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E7', 15.99)">7</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E8', 15.99)">8</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E9', 15.99)">9</button>
+                            <button class="seat seat-vip w-8 h-8 rounded-lg text-xs font-medium" onclick="toggleSeat(this, 'E10', 15.99)">10</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex justify-center space-x-8 mb-8 text-sm">
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 seat-available rounded"></div>
+                    <span>Available</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 seat-selected rounded"></div>
+                    <span>Selected</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 seat-booked rounded"></div>
+                    <span>Booked</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 seat-premium rounded"></div>
+                    <span>Premium (+30)</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="w-4 h-4 seat-vip rounded"></div>
+                    <span>VIP (+50)</span>
+                </div>
+            </div>
+
+<div id="booking-summary" class="bg-gray-50 rounded-lg p-6 mb-6 hidden">
+  <h3 class="font-semibold text-gray-900 mb-4">Booking Summary</h3>
+  <div class="space-y-2">
+      <div class="flex justify-between">
+          <span>Movie:</span>
+          <span class="font-medium" id="summary-movie-name"></span>
+      </div>
+      <div class="flex justify-between">
+          <span>Showtime:</span>
+          <span class="font-medium" id="summary-show-time"></span>
+      </div>
+      <div class="flex justify-between">
+          <span>Selected Seats:</span>
+          <span class="font-medium" id="selected-seats">-</span>
+      </div>
+      <div class="flex justify-between">
+          <span>Number of Tickets:</span>
+          <span class="font-medium" id="ticket-count">0</span>
+      </div>
+      <div class="flex justify-between text-lg font-bold">
+          <span>Total Amount:</span>
+          <span class="text-purple-600" id="total-amount">Rs0.00</span>
+      </div>
+  </div>
+</div>
+
+            <!-- Continue Button -->
+            <div class="flex justify-center">
+                <a href="payment.html" id="continue-btn" class="bg-gray-300 text-gray-500 px-8 py-3 rounded-lg font-medium cursor-not-allowed">
+                    Continue to Payment (0 seats)
+                </a>
+            </div>
+        </div>
+    </div>
+
+   <script>
+    let selectedSeats = [];
+    let totalAmount = 0;
+
+    const params = new URLSearchParams(window.location.search);
+    const movie = params.get("movie");
+    const time = params.get("time");
+    const price = params.get("price");
+    const theatre = params.get("theatre");
+    const rawPrice = params.get("price");
+    const basePrice = parseFloat(rawPrice.replace(/[^\d.]/g, ""));
+
+    if (movie && time) {
+        document.getElementById("movieDetails").textContent = `${decodeURIComponent(movie)} - ${decodeURIComponent(time)}`;
+    } else {
+        document.getElementById("movieDetails").textContent = "Movie not specified";
+    }
+
+    if (theatre) {
+        document.getElementById("theatreDetails").textContent = `Theatre: ${decodeURIComponent(theatre)}`;
+    }
+
+    function toggleSeat(button, seatId) {
+        if (button.classList.contains('seat-booked')) return;
+
+        const isSelected = button.classList.contains('seat-selected');
+        let seatPrice = basePrice;
+
+        if (seatId.startsWith('A') || seatId.startsWith('B')) {
+            seatPrice += 0;
+        } else if (seatId.startsWith('C') || seatId.startsWith('D')) {
+            seatPrice += 30;
+        } else if (seatId.startsWith('E')) {
+            seatPrice += 50;
+        }
+
+        if (isSelected) {
+            button.classList.remove('seat-selected');
+            if (seatId.startsWith('A') || seatId.startsWith('B')) {
+                button.classList.add('seat-vip');
+            } else if (seatId.startsWith('C') || seatId.startsWith('D')) {
+                button.classList.add('seat-premium');
+            } else if (seatId.startsWith('E')) {
+                button.classList.add('seat-vip');
+            } else {
+                button.classList.add('seat-available');
+            }
+            selectedSeats = selectedSeats.filter(seat => seat.id !== seatId);
+            totalAmount -= seatPrice;
+        } else {
+            button.classList.remove('seat-vip', 'seat-premium', 'seat-available');
+            button.classList.add('seat-selected');
+            selectedSeats.push({ id: seatId, price: seatPrice });
+            totalAmount += seatPrice;
+        }
+
+        updateSummary();
+    }
+
+    function updateSummary() {
+        const summaryDiv = document.getElementById('booking-summary');
+        const continueBtn = document.getElementById('continue-btn');
+
+        if (selectedSeats.length > 0) {
+            summaryDiv.classList.remove('hidden');
+            document.getElementById('summary-movie-name').textContent = decodeURIComponent(movie);
+            document.getElementById('summary-show-time').textContent = decodeURIComponent(time);
+            document.getElementById('selected-seats').textContent = selectedSeats.map(s => `${s.id} (₹${s.price})`).join(', ');
+            document.getElementById('ticket-count').textContent = selectedSeats.length;
+            document.getElementById('total-amount').textContent = `Rs${totalAmount.toFixed(2)}`;
+
+            continueBtn.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            continueBtn.classList.add('bg-purple-600', 'hover:bg-purple-700', 'text-white', 'transition-colors');
+            continueBtn.textContent = `Continue to Payment (${selectedSeats.length} seats)`;
+
+            const seatParams = selectedSeats.map(s => s.id).join(',');
+            const encodedMovie = encodeURIComponent(movie || "");
+            const encodedTime = encodeURIComponent(time || "");
+            const seatPrices = selectedSeats.map(s => s.price).join(',');
+            const encodedTheatre = encodeURIComponent(theatre || "");
+
+            // ✅ Correctly set the payment URL using Flask's Jinja rendering
+            const paymentUrl = "{{ url_for('payment') }}";
+
+            continueBtn.href = `${paymentUrl}?movie=${encodedMovie}&time=${encodedTime}&seats=${seatParams}&total=${totalAmount.toFixed(2)}&prices=${seatPrices}&theatre=${encodedTheatre}`;
+
+            sessionStorage.setItem("selectedMovieTitle", decodeURIComponent(movie));
+            sessionStorage.setItem("selectedShowtime", decodeURIComponent(time));
+        } else {
+            summaryDiv.classList.add('hidden');
+            continueBtn.classList.remove('bg-purple-600', 'hover:bg-purple-700', 'text-white', 'transition-colors');
+            continueBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            continueBtn.textContent = 'Continue to Payment (0 seats)';
+            continueBtn.href = '#';
+        }
+    }
+</script>
+</body>
+</html>
